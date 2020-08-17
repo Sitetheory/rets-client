@@ -11,6 +11,9 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true
     },
+    "exclude": [
+        "node_modules"
+    ],
     "include": [
         "dts/*.ts",
         "test/*.ts"
