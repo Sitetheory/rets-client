@@ -2,7 +2,7 @@
 ### jshint -W097 ###
 'use strict'
 
-MultipartParser = require('formidable/lib/multipart_parser').MultipartParser
+MultipartParser = require('@esvinson/formidable/lib/multipart_parser').MultipartParser
 Promise = require('bluebird')
 through2 = require('through2')
 debug = require('debug')('rets-client:multipart')
@@ -16,13 +16,13 @@ headersHelper = require('./headers')
 # Multipart parser derived from formidable library. See https://github.com/felixge/node-formidable
 
 
-getObjectStream = (retsContext, handler) -> new Promise (resolve, reject) ->
+getObjectStream = (retsContext, handler) -> new Promise (resolve) ->
   multipartBoundary = retsContext.headerInfo.contentType.match(/boundary="[^"]+"/ig)?[0].slice('boundary="'.length, -1)
   if !multipartBoundary
     multipartBoundary = retsContext.headerInfo.contentType.match(/boundary=[^;]+/ig)?[0].slice('boundary='.length)
   if !multipartBoundary
     throw new errors.RetsProcessingError(retsContext, 'Could not find multipart boundary')
-  
+
   parser = new MultipartParser()
   objectStream = through2.obj()
   objectStream.write(type: 'headerInfo', headerInfo: retsContext.headerInfo)
@@ -34,7 +34,7 @@ getObjectStream = (retsContext, handler) -> new Promise (resolve, reject) ->
   done = false
   partDone = false
   flushed = false
-  
+
   handleError = (err) ->
     debug("handleError: #{err.error||err}")
     bodyStream?.end()
@@ -44,7 +44,7 @@ getObjectStream = (retsContext, handler) -> new Promise (resolve, reject) ->
     if !err.error
       err = {type: 'error', error: err, headerInfo: (err.headerInfo ? retsContext.headerInfo)}
     objectStream.write(err)
-  
+
   handleEnd = () ->
     if done && partDone && flushed && objectStream
       debug("handleEnd")
@@ -94,11 +94,11 @@ getObjectStream = (retsContext, handler) -> new Promise (resolve, reject) ->
     .then () ->
       partDone = true
       handleEnd()
-      
+
   parser.onPartData = (b, start, end) ->
     debugVerbose("onPartData")
     bodyStream?.write(b.slice(start, end))
-    
+
   parser.onPartEnd = () ->
     debug("onPartEnd")
     bodyStream?.end()
@@ -114,11 +114,11 @@ getObjectStream = (retsContext, handler) -> new Promise (resolve, reject) ->
   retsContext.parser.on 'error', (err) ->
     debug("stream error")
     handleError(err)
-    
+
   interceptor = (chunk, encoding, callback) ->
     parser.write(chunk)
     callback()
-    
+
   flush = (callback) ->
     debug("stream flush")
     err = parser.end()
@@ -132,5 +132,5 @@ getObjectStream = (retsContext, handler) -> new Promise (resolve, reject) ->
 
   retsContext.parser.pipe(through2(interceptor, flush))
   resolve(objectStream)
-    
+
 module.exports.getObjectStream = getObjectStream
