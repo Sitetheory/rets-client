@@ -1,6 +1,6 @@
 {
   "name": "rets-client",
-  "version": "5.1.0",
+  "version": "5.2.3",
   "description": "A RETS client (Real Estate Transaction Standard).",
   "main": "index.js",
   "types": "dts/index.d.ts",
@@ -37,7 +37,7 @@
     "tslint": "tslint dts/* --fix",
     "compile": "coffee --compile --output dist/ lib/ && tsc --noEmit",
     "test": "node_modules/mocha/bin/_mocha --compilers ts-node/register test/*.ts",
-    "prepublish": "npm run test",
+    "prepare": "npm run test",
     "dev": "coffee --watch --output dist lib/"
   },
   "repository": {
