@@ -1,14 +1,14 @@
 {
-  "name": "rets-client",
+  "name": "@sitetheory/rets-client",
   "version": "5.2.3",
-  "description": "A RETS client (Real Estate Transaction Standard).",
+  "description": "A RETS client (Real Estate Transaction Standard). Fixes and necessary PRs merged within managed repo.",
   "main": "index.js",
   "types": "dts/index.d.ts",
   "dependencies": {
     "@esvinson/formidable": "1.1.2",
     "base64-stream": "^0.1.3",
     "bluebird": "2.11.0",
-    "debug": "^2.2.0",
+    "debug": "^3.1.0",
     "node-expat": "^2.3.18",
     "request": "^2.55.0",
     "request-debug": "^0.2.0",
@@ -20,7 +20,7 @@
     "@types/mocha": "^8.0.2",
     "@types/node": "^8.0.31",
     "chai": "^4.2.0",
-    "coffee-script": "^1.12.7",
+    "coffeescript": "^1.12.7",
     "mocha": "^8.1.1",
     "source-map-support": "^0.4.18",
     "ts-node": "^8.10.2",
@@ -42,7 +42,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sbruno81/rets-client.git"
+    "url": "https://github.com/sitetheory/rets-client.git"
   },
   "keywords": [
     "rets",
@@ -65,6 +65,6 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sbruno81/rets-client/issues"
+    "url": "https://github.com/sitetheory/rets-client/issues"
   }
 }
