@@ -2,7 +2,7 @@
 ### jshint -W097 ###
 'use strict'
 
-expat = require('node-expat')
+xmlParser = require('./xmlParser')
 through2 = require('through2')
 
 errors = require('./errors')
@@ -21,7 +21,7 @@ headersHelper = require('./headers')
 getSimpleParser = (retsContext, errCallback, parserEncoding='UTF-8') ->
   result =
     currElementName: null
-    parser: new expat.Parser(parserEncoding)
+    parser: new xmlParser.Parser(parserEncoding)
     finish: () ->
       result.parser.removeAllListeners()
     status: null
@@ -72,7 +72,7 @@ getStreamParser = (retsContext, metadataTag, rawData, parserEncoding='UTF-8') ->
   currElementName = null
   headers = null
 
-  parser = new expat.Parser(parserEncoding)
+  parser = new xmlParser.Parser(parserEncoding)
   retsStream = through2.obj()
   finish = (type, payload) ->
     parser.removeAllListeners()
